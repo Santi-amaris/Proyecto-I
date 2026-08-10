@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Animacion</title>
+</head>
+<body style= "background-color: black;">
+<canvas id="canvas" width="700" height="500" style="border: 2px solid white;">
+Error
+</canvas>
+<script>
+	var canvas = document.getElementById("canvas");
+	var dibujo = canvas.getContext("2d");
+	var T=0;
+	var X0= 0;
+	var Y0= canvas.height;
+	var X= X0;
+	var Y= Y0;
+	var theta= 45;
+	var V0= 0.5;
+	var g= 0.0005;
+
+	var segundos=0;
+	var segundosviejos=0;
+	var facvel=300;
+
+	window.onload= init();
+
+	function init()
+	{
+	window.requestAnimationFrame(animationLoop);
+	}
+
+	function animationLoop(timeStamp)
+	{
+	segundos = (timeStamp-segundosviejos)/1000;
+	segundosviejos= timeStamp;
+	update();
+	draw();
+	window.requestAnimationFrame(animationLoop);
+	}
+
+	function update()
+	{
+	 T += segundos*facvel;
+	 X= V0*Math.cos(-theta*Math.PI/180.)*T + X0;
+	 Y= 0.5*g*T*T + V0*Math.sin(-theta*Math.PI/180.)*T + Y0;
+	 
+	}
+	
+	function draw()
+	{
+	dibujo.clearRect(0,0, canvas.width, canvas.height);
+	dibujo.beginPath();
+	dibujo.arc(X, Y, 15, 0, 2*Math.PI);
+	dibujo.closePath();
+	dibujo.fillStyle= "gold";
+	dibujo.shadowColor="gold";
+	dibujo.shadowBlur= 20;
+	dibujo.fill();
+	}
+
+
+</script> 
+</body>
+</html>
