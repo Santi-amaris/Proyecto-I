@@ -1,0 +1,28 @@
+body{
+    background: radial-gradient(circle,#000013 0% 10%,#000 75% 100%);
+}
+canvas{
+    border-radius: 5px;
+    border: 3px dashed whitesmoke;
+}
+input{
+    background-color:#feed3a;
+    color:#00002bd9;
+    border-top-left-radius:10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-style: solid;
+    border-left-color: whitesmoke;
+    border-left-width: 10px;
+    padding: 7px;
+    margin: 15px;
+    font-family: Besley;
+    box-sizing: border-box;
+}
+#tfacvel{
+    width: 7.25cm;
+}
+#tang{
+    width: 6.5cm;
+}
