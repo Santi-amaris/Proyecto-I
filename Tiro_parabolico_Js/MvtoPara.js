@@ -29,7 +29,7 @@
 
 	function comienzo(){
 		theta=parseFloat(document.getElementById("tang").value);
-		V0= parseFloat(document.getElementById("tvel").value);
+		V0= ((parseFloat(document.getElementById("tvel").value))/10); //Sea 1 pixel=0.1 metros
 		V0X=V0*Math.cos(-theta*Math.PI/180.);
 		V0Y=V0*Math.sin(-theta*Math.PI/180.);
 		facvel= parseFloat(document.getElementById("tfacvel").value);
@@ -59,29 +59,37 @@
 	function update()
 	{
 	if (correr){
-		{	
+		{
 	T += segundos*facvel;
 	X= V0X*T + X0;
 	Y= 0.5*g*T*T + V0Y*T + Y0;
 		}
 	
-	if (Y>=canvas.height || Y<=0){
-	V0Y=-(Math.sqrt((V0Y*V0Y) + 2*g*(canvas.height - Y)));
-	//V0Y=-(g*T + V0Y); (Código opcional que permite rebotes más variados, pero técnicamente incorrecto ya que por la discretización del tiempo que proviene de la definición de T y por ende de la función timeStamp(reloj interno del equipo), cada vez la pelota va más rápido)
+	if (Y>=canvas.height){
+	//V0Y=-(Math.sqrt((V0Y*V0Y) + 2*g*(canvas.height - Y0)));
+	V0Y=-(g*T + V0Y); //(Código opcional que permite rebotes más variados, pero técnicamente incorrecto ya que por la discretización del tiempo que proviene de la definición de T y por ende de la función timeStamp(reloj interno del equipo), cada vez la pelota va más rápido)
+	theta= Math.atan(V0Y/V0X);
 	X0=X;
 	Y0=Y;
 	T=0;
-	V0= Math.sqrt((V0X*V0X)+(V0Y*V0Y));
-	theta= Math.atan((Math.abs(V0Y))/V0X);
+		}
+	
+	if (Y<=0){
+	//V0Y=(Math.sqrt((V0Y*V0Y) + 2*g*(0 - Y)));
+	V0Y=-(g*T + V0Y); //(Código opcional que permite rebotes más variados, pero técnicamente incorrecto ya que por la discretización del tiempo que proviene de la definición de T y por ende de la función timeStamp(reloj interno del equipo), cada vez la pelota va más rápido)
+	theta= Math.atan(V0Y/V0X);
+	X0=X;
+	Y0=Y;
+	T=0;
 		}
 
 	if (X<=0 || X>=canvas.width){
+	V0Y=(g*T + V0Y);
 	V0X= -(V0X);
+	theta= Math.atan((V0Y/V0X));
+	Y0=Y
 	X0=X;
-	Y0=Y;
 	T=0;
-	V0= Math.sqrt((V0X*V0X)+(V0Y*V0Y));
-	theta= Math.atan(V0Y/(Math.abs(V0X)));
 	}
 
 		}
